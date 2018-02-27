@@ -8,6 +8,7 @@ import promise from 'redux-promise';
 import createLogger from 'redux-logger';
 import allReducers from './reducers';
 import App from './components/App';
+import * as d3 from "d3";
 
 const logger = createLogger();
 const store = createStore(
