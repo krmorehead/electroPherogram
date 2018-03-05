@@ -19,6 +19,16 @@ module.exports = {
             {
                 test: /\.scss/,
                 loader: 'style-loader!css-loader!sass-loader'
+            },
+            {
+                test: /node_modules/,
+                loader: 'ify-loader'
+            }
+        ],
+        rules: [
+            {
+                test: /\.js$/,
+                loader: 'ify-loader'
             }
         ]
     },

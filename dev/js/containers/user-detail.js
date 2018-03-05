@@ -1,21 +1,58 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import Plotly from "plotly.js";
 
 /*
  * We need "if(!this.props.user)" because we set state to null by default
  * */
 
 class UserDetail extends Component {
+    componentDidMount() {
+        const X_VALUES = [1, 2, 3, 4];
+        let cytosine = {
+            x: X_VALUES,
+            y: [0, 1, 0, 0],
+            mode: 'lines',
+            line: {
+                color: 'rgb(0, 0, 300)',
+            },
+            name: 'Cytosine'
+        };
+        let thymine = {
+            x: X_VALUES,
+            y: [1, 0, 0, 0],
+            mode: 'lines',
+            line: {
+                color: 'rgb(300, 0, 0)',
+            },
+            name: 'Thymine'
+        };
+        let adenine = {
+            x: X_VALUES,
+            y: [0, 0, 0, 1],
+            line: {
+                color: 'rgb(0, 300, 0)',
+            },
+            mode: 'lines',
+            name: 'Adenine'
+        };
+        let guanine = {
+            x: X_VALUES,
+            y: [0, 0, 1, 0],
+            line: {
+                color: 'rgb(0, 0, 0)',
+            },
+            mode: 'lines',
+            name: 'Guanine'
+        };
+
+        var data = [cytosine, thymine, adenine, guanine];
+        Plotly.newPlot('electroPherogram', data);
+    }
+
     render() {
-        if (!this.props.user) {
-            return (<div>Select a user...</div>);
-        }
         return (
-            <div>
-                <img src={this.props.user.thumbnail} />
-                <h2>{this.props.user.first} {this.props.user.last}</h2>
-                <h3>Age: {this.props.user.age}</h3>
-                <h3>Description: {this.props.user.description}</h3>
+            <div id="electroPherogram">
             </div>
         );
     }
