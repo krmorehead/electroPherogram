@@ -7,6 +7,43 @@ import Plotly from "plotly.js";
  * */
 
 class UserDetail extends Component {
+    buildPeak(xStart, peakHeight=1, lastY=0, resolution=6) {
+        let xValues = [];
+        let yValues = [];
+        for (var i = 1; i <= resolution; i++) {
+            let xValue = xStart + i / resolution;
+
+            let diffFromPeakHeight = peakHeight - lastY;
+
+            let targetY;
+            let yValue;
+            if (i < resolution / 2) {
+                yValue = this.calculateYValue(lastY, peakHeight);
+            } else if (i > resolution / 2 && i !== resolution) {
+                yValue = this.calculateYValue(lastY, 0);
+
+            } else if (i === resolution / 2) {
+                yValue = peakHeight;
+            } else {
+                yValue = 0;
+            }
+            lastY = yValue;
+
+            xValues.push(xValue);
+            yValues.push(yValue);
+        }
+
+        return {
+            x: xValues,
+            y: yValues
+        }
+    }
+
+    calculateYValue(lastY, targetY) {
+        let diff = targetY - lastY;
+        return lastY + diff / 2
+    }
+
     componentDidMount() {
         const X_VALUES = [1, 2, 3, 4];
         let cytosine = {
@@ -46,6 +83,8 @@ class UserDetail extends Component {
             name: 'Guanine'
         };
 
+        var el = this.buildPeak(1);
+        console.log(el);
         var data = [cytosine, thymine, adenine, guanine];
         Plotly.newPlot('electroPherogram', data);
     }
